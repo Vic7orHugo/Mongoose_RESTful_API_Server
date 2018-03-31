@@ -37,10 +37,10 @@ ___WINDOWS___:
   ```
   3. At the third window, use any of the commands:
   ```
-  curl "http&#58;//localhost:3000/accounts"
-  curl -H "Content-Type: application/json" -X POST -d '{"balance": "1000", "name": "Fred"}' "http&#58;//localhost:3000/accounts"
-  curl -H "Content-Type: application/json" -X PUT -d '{"balance": "1500"}' "http&#58;//localhost:3000/accounts/ID"
-  curl -X DELETE "http&#58;//localhost:3000/accounts/ID"
+  curl "http://localhost:3000/accounts"
+  curl -H "Content-Type: application/json" -X POST -d '{"balance": "1000", "name": "Fred"}' "http://localhost:3000/accounts"
+  curl -H "Content-Type: application/json" -X PUT -d '{"balance": "1500"}' "http://localhost:3000/accounts/ID"
+  curl -X DELETE "http://localhost:3000/accounts/ID"
   
   OR
   
