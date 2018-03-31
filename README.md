@@ -68,3 +68,5 @@ ___WINDOWS___:
 * The code is really hardcoded for now, so if you try to edit an account name, it will probably result on a error.
 
 * ID is a id value for a document. This value has to be the value of an id generated automatically by Mongoose, which means you have to know it beforehand. To discover it, you just have to either use MongoUI, or use the 4º command from instruction 4b.
+
+* The connection to the database is started and finished after every request, so the server will answer a bit slower. I did this just to not let the connections to the database accumulate.
