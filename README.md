@@ -18,7 +18,7 @@ ___WINDOWS___:
      2. Find the directory where you downloaded the project and unzip it
      3. The project probably is saved on your Downloads or Desktop folder, so just type: 
  ```
-    cd Downloads\Mongoose_RESTful_API_Server   OR   cd Downloads\Mongoose_RESTful_API_Server
+    cd Downloads\Mongoose_RESTful_API_Server-master   OR   cd Downloads\Mongoose_RESTful_API_Server-master
 
  ``` 
     
