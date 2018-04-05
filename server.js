@@ -10,7 +10,8 @@ const errorhandler = require('errorhandler');	// Error handling
 const bodyParser = require('body-parser');		// Parses the payloads
 const mongoose = require('mongoose');			// Enables mongoose methods
 
-mongoose.Promise = global.Promise	// Mongoose promise acquiring the ES6 global promise
+mongoose.connect('mongodb://localhost:27017/edx-course-db'); // Connectiong to database using mongoose connect method
+mongoose.Promise = global.Promise;	// Mongoose promise acquiring the ES6 global promise
 let app = express(); 				// Instance of Express.js
 app.use(logger('dev'));				// Middleware for server logging
 app.use(bodyParser.json());			// Middleware to parse the body data
@@ -23,48 +24,46 @@ const Account = mongoose.model('Account', { // Account custom schema
 
 // CRUD method requests
 app.get('/accounts', (req, res, next) => {// GET
-	mongoose.connect('mongodb://localhost:27017/edx-course-db') // Connectiong to database using mongoose connect method
 	Account.find({}, (error, accounts) => {
 		if (error) return next(error)
 		res.send(accounts)
 		console.log('Request to show accounts finished.')
-		mongoose.disconnect()	// Disconnects after every request
 	})
 });
 
-app.post('/accounts', (req, res, next) => {	// POST
-	mongoose.connect('mongodb://localhost:27017/edx-course-db') // Connectiong to database using mongoose connect method
-	let account = new Account({
-		name: req.body.name,
-		balance: req.body.balance
+app.get('/accounts/:id', (req, res, next) => { // GET by ID
+	Account.findById(req.params.id, (error, account) => {
+		if (error) return next(error);
+		res.send(account.toJSON());
+		console.log(account.name, 'account information sent.');
 	});
-	account.save((error, results) => {
+});
+
+app.post('/accounts', (req, res, next) => {	// POST
+	let newAccount = new Account(req.body);
+	newAccount.save((error, account) => {
 		if (error) return next(error)
-		res.send(results)
+		res.send(account)
 		console.log(`${req.body.name} account saved!`)
-		mongoose.disconnect()	// Disconnects after every request
 	})
 });
 
 app.put('/accounts/:id', (req, res, next) => { // PUT
-	mongoose.connect('mongodb://localhost:27017/edx-course-db') // Connectiong to database using mongoose connect method
-	Account.findOne({_id: req.params.id}, (error, results) => {
+	Account.findOne({_id: req.params.id}, (error, account) => {
 		if (error) return next(error)
-		results.balance = req.body.balance;
-		results.save()
-		res.send(results)
-		console.log(`${results.name} account updated!`)
-		mongoose.disconnect()	// Disconnects after every request
+		if (req.body.name) account.name = req.body.name;
+		if (req.body.balance) account.balance = req.body.balance;
+		account.save()
+		res.send(account)
+		console.log(`${account.name} account updated!`)
 	})
 });
 
 app.delete('/accounts/:id', (req, res, next) => { // DELETE
-	mongoose.connect('mongodb://localhost:27017/edx-course-db') // Connectiong to database using mongoose connect method
-	Account.remove({_id: req.params.id}, (error, results) => {
+	Account.remove({_id: req.params.id}, (error, account) => {
 		if (error) return next(error)
-		res.send(results)
+		res.send(account)
 		console.log('The selected account was removed!')
-		mongoose.disconnect()	// Disconnects after every request
 	})
 });
 
